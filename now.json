@@ -1,0 +1,13 @@
+{
+  "name": "followboard",
+  "type": "docker",
+  "alias": ["followboard.now.sh"],
+  "files": ["./"],
+  "public": true,
+  "scale": {
+    "sfo1": {
+      "min": 1,
+      "max": 3
+    }
+  }
+}
