@@ -25,6 +25,11 @@ type Config struct {
 		Password string
 	}
 
+	Github struct {
+		ClientID string
+		Secret   string
+	}
+
 	PR struct {
 		Index string
 	}

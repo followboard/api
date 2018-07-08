@@ -11,19 +11,23 @@ import (
 	"github.com/golang/glog"
 )
 
-const endpoint = "https://api.github.com"
+const apiEndpoint = "https://api.github.com"
 
 var errInternal = errors.New("{\"message\": \"Internal Server Error\"}")
 
 // GitHub API v3 client
 type GitHub struct {
-	Client *http.Client
+	Client   *http.Client
+	ClientID string
+	Secret   string
 }
 
 // New creates a new GitHub client
-func New() *GitHub {
+func New(clientID string, secret string) *GitHub {
 	return &GitHub{
-		Client: &http.Client{},
+		Client:   &http.Client{},
+		ClientID: clientID,
+		Secret:   secret,
 	}
 }
 
@@ -38,7 +42,7 @@ func (g *GitHub) Fetch(method, url, token string, body interface{}) ([]byte, err
 
 	req, err := http.NewRequest(
 		method,
-		endpoint+url,
+		apiEndpoint+url,
 		bytes.NewReader(reqBody),
 	)
 

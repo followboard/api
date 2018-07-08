@@ -5,6 +5,10 @@
     "Username": "",
     "Password": ""
   },
+  "Github": {
+    "ClientID": "",
+    "Secret": ""
+  },
   "PR": {
     "Index": "pr"
   }
