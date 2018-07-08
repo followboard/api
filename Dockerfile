@@ -9,7 +9,7 @@ RUN ln -s $(pwd) /api
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-w -s" -o /app .
 
 FROM scratch
-ENV CONFIG=config/prod.config.json
+# ENV CONFIG=config/prod.config.json
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # COPY --from=build /api/config/prod.config.json config/
 COPY --from=build /app ./

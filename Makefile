@@ -1,6 +1,6 @@
 default: test
 
-.PHONY: test index delete push release
+.PHONY: test build run push
 
 test:
 	@CONFIG=config/test.config.json GOCACHE=off go test ./...
