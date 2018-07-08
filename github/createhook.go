@@ -23,12 +23,8 @@ type CreateHookConfig struct {
 	ContentType string `json:"content_type"`
 }
 
-// CreateHookResponse from POST /repos/:org/:repo/hooks
-type CreateHookResponse struct {
-}
-
 // CreateHook with request body at org/repo
-func (g *GitHub) CreateHook(org, repo, token string, body *CreateHookRequest) (*CreateHookResponse, error) {
+func (g *GitHub) CreateHook(org, repo, token string, body *CreateHookRequest) error {
 	_, err := g.Fetch(
 		http.MethodPost,
 		fmt.Sprintf(createHookURL, org, repo),
@@ -38,8 +34,8 @@ func (g *GitHub) CreateHook(org, repo, token string, body *CreateHookRequest) (*
 
 	if err != nil {
 		glog.Errorf("Failed creating hook: %v", err)
-		return nil, err
+		return err
 	}
 
-	return &CreateHookResponse{}, nil
+	return nil
 }

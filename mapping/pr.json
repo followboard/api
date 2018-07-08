@@ -1,0 +1,72 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 1
+  },
+  "mappings": {
+    "pr": {
+      "properties": {
+        "followboardUserLogin": {
+          "type": "keyword"
+        },
+        "number": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "keyword",
+          "index": false
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "pattern"
+        },
+        "body": {
+          "type": "text",
+          "analyzer": "pattern"
+        },
+        "state": {
+          "type": "keyword"
+        },
+        "commits": {
+          "type": "integer"
+        },
+        "additions": {
+          "type": "integer"
+        },
+        "deletions": {
+          "type": "integer"
+        },
+        "changedFiles": {
+          "type": "integer"
+        },
+        "userLogin": {
+          "type": "keyword"
+        },
+        "headRepoOwnerLogin": {
+          "type": "keyword"
+        },
+        "headRepoName": {
+          "type": "keyword"
+        },
+        "headRef": {
+          "type": "keyword"
+        },
+        "baseRepoOwnerLogin": {
+          "type": "keyword"
+        },
+        "baseRepoName": {
+          "type": "keyword"
+        },
+        "baseRef": {
+          "type": "keyword"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "updatedAt": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,8 @@ package server
 import (
 	"net/http"
 
+	"github.com/followboard/api/config"
+	"github.com/followboard/api/elastic"
 	"github.com/followboard/api/github"
 	"github.com/golang/glog"
 	"github.com/labstack/echo"
@@ -11,21 +13,24 @@ import (
 
 // Server serves HTTP requests
 type Server struct {
-	Echo   *echo.Echo
-	GitHub *github.GitHub
+	Echo    *echo.Echo
+	Elastic *elastic.Elastic
+	GitHub  *github.GitHub
+	Config  *config.Config
 }
 
 // New creates the server
-func New() *Server {
+func New(c *config.Config) *Server {
 	s := &Server{
-		Echo:   echo.New(),
-		GitHub: github.New(),
+		Echo:    echo.New(),
+		Elastic: elastic.New(c),
+		GitHub:  github.New(),
+		Config:  c,
 	}
 
 	s.Echo.Use(middleware.CORSWithConfig(middleware.DefaultCORSConfig))
 	s.Echo.Use(s.tokenMiddleware)
 
-	s.Echo.GET("/pr", s.getPRs)
 	s.Echo.POST("/hook", s.createHook)
 	s.Echo.POST("/hook/event", s.handleHook)
 

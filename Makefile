@@ -1,6 +1,9 @@
 default: test
 
-.PHONY: test build run push
+.PHONY: dev test build run push
+
+dev:
+	@docker-compose up
 
 test:
 	@CONFIG=config/test.config.json GOCACHE=off go test ./...

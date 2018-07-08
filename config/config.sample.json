@@ -1,0 +1,11 @@
+{
+  "Env": "sample",
+  "Elastic": {
+    "URL": "",
+    "Username": "",
+    "Password": ""
+  },
+  "PR": {
+    "Index": "pr"
+  }
+}
