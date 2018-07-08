@@ -74,8 +74,8 @@ func (s *Server) handleLoginCallback(c echo.Context) error {
 	code := c.QueryParam("code")
 	accessToken, err := s.GitHub.GetToken(code)
 	if err != nil {
-		glog.Error(err)
-		return c.NoContent(http.StatusBadRequest)
+		c.Logger().Error(err)
+		return c.JSONBlob(http.StatusBadRequest, []byte(err.Error()))
 	}
 
 	return c.JSON(http.StatusOK, accessToken)

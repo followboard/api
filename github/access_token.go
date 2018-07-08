@@ -3,7 +3,6 @@ package github
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"net/http"
 
@@ -20,7 +19,9 @@ type accessTokenRequest struct {
 
 // AccessTokenResponse handles access token retrieved by GitHub API
 type AccessTokenResponse struct {
-	AccessToken string `json:"access_token"`
+	AccessToken      string `json:"access_token"`
+	Error            string `json:"error"`
+	ErrorDescription string `json:"error_description"`
 }
 
 // GetToken retrieves Access Token from github API using authorization code
@@ -42,7 +43,6 @@ func (g *GitHub) GetToken(code string) (*AccessTokenResponse, error) {
 		glog.Errorf("Failed to encode request body: %v", err)
 		return nil, errInternal
 	}
-	glog.Error(string(reqBody))
 
 	req, err := http.NewRequest(
 		"POST",
@@ -58,19 +58,18 @@ func (g *GitHub) GetToken(code string) (*AccessTokenResponse, error) {
 		return nil, errInternal
 	}
 
-	resBody, _ := ioutil.ReadAll(res.Body)
-	glog.Error(string(resBody))
-	if res.StatusCode >= 400 {
-		sBody := string(resBody)
-		glog.Errorf("Error calling API: %s - %s", sBody, res)
-		return nil, errors.New(sBody)
-	}
-
 	var tokenResponse AccessTokenResponse
+	resBody, _ := ioutil.ReadAll(res.Body)
 	err = json.Unmarshal(resBody, &tokenResponse)
 	if err != nil {
 		glog.Errorf("Failed to parse json: %v", err)
 		return nil, errInternal
+	}
+
+	if tokenResponse.Error != "" {
+		glog.Errorf("Error calling API: %s", tokenResponse.ErrorDescription)
+		return nil, errInternal
+
 	}
 
 	return &tokenResponse, nil
